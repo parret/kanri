@@ -159,6 +159,35 @@ limitations under the License.
         >
           {{ $t("general.deleteAction") }}
         </ContextMenuItem>
+        <ContextMenuSeparator class="bg-elevation-3 my-1 h-px w-full" />
+        <ContextMenuLabel class="text-dim-3 px-4 pb-1 pt-0.5 text-xs">
+          {{ $t("modals.editCard.colorTitle") }}
+        </ContextMenuLabel>
+        <div class="flex flex-row flex-wrap items-center gap-1.5 px-3 pb-1.5">
+          <ContextMenuItem
+            v-for="colorOption in cardColorOptions"
+            :key="colorOption.value"
+            :value="colorOption.value"
+            :class="[
+              colorOption.value.startsWith('#') ? '' : colorOption.value,
+              colorOption.value === 'bg-elevation-2' ? 'border-elevation-3 border' : '',
+            ]"
+            :style="
+              colorOption.value.startsWith('#')
+                ? { 'background-color': colorOption.value }
+                : {}
+            "
+            :title="colorOption.title"
+            class="flex size-6 cursor-pointer items-center justify-center rounded-full outline-none transition-transform hover:scale-110 data-[highlighted]:ring-2 data-[highlighted]:ring-white/80"
+            @click="setCardColor(colorOption.value)"
+          >
+            <CheckIcon
+              v-if="colorOption.value === cardBackgroundColor"
+              class="size-4"
+              :class="getContrast(colorOption.contrastColor)"
+            />
+          </ContextMenuItem>
+        </div>
       </ContextMenuContent>
     </ContextMenuPortal>
   </ContextMenuRoot>
@@ -168,7 +197,7 @@ limitations under the License.
 import type { Card, Tag } from "@/types/kanban-types";
 
 import { getContrast } from "~/utils/colorUtils";
-import { XMarkIcon } from "@heroicons/vue/24/solid";
+import { CheckIcon, XMarkIcon } from "@heroicons/vue/24/solid";
 import {
   PhCheckCircle,
   PhChecks,
@@ -180,8 +209,10 @@ import {
 import {
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuLabel,
   ContextMenuPortal,
   ContextMenuRoot,
+  ContextMenuSeparator,
   ContextMenuTrigger,
 } from "radix-vue";
 
@@ -203,6 +234,7 @@ const emit = defineEmits<{
   (e: "setCardName", cardId: string | undefined, name: string): void;
   (e: "updateCardTags", cardId: string | undefined, tags: Array<Tag>): void;
   (e: "duplicateCard", cardId: string | undefined): void;
+  (e: "setCardColor", cardId: string | undefined, color: string): void;
 }>();
 
 const { locale } = useI18n();
@@ -333,6 +365,45 @@ const cardBackgroundColor = computed(() => {
 
   return props.card.color;
 });
+
+// Preset palette mirrors the picker in the edit card modal.
+// contrastColor is the approximate hex of each tailwind class, used to pick a readable check mark.
+const presetCardColors = [
+  { value: "bg-pink-600", contrastColor: "#db2777", title: "Pink" },
+  { value: "bg-red-600", contrastColor: "#dc2626", title: "Red" },
+  { value: "bg-orange-600", contrastColor: "#ea580c", title: "Orange" },
+  { value: "bg-yellow-600", contrastColor: "#ca8a04", title: "Yellow" },
+  { value: "bg-green-600", contrastColor: "#16a34a", title: "Green" },
+  { value: "bg-teal-600", contrastColor: "#0d9488", title: "Teal" },
+  { value: "bg-blue-600", contrastColor: "#2563eb", title: "Blue" },
+  { value: "bg-purple-600", contrastColor: "#9333ea", title: "Purple" },
+];
+
+const cardColorOptions = computed(() => {
+  const options = [
+    ...presetCardColors,
+    {
+      value: "bg-elevation-2",
+      contrastColor: savedColors.value?.elevation2 ?? "#000000",
+      title: "Default",
+    },
+  ];
+
+  // If the card currently has a custom hex color, show it so the selection is visible.
+  if (props.card.color?.startsWith("#")) {
+    options.push({
+      value: props.card.color,
+      contrastColor: props.card.color,
+      title: props.card.color,
+    });
+  }
+
+  return options;
+});
+
+const setCardColor = (color: string) => {
+  emit("setCardColor", props.card.id, color);
+};
 
 const cardTextColor = computed(() => {
   if (cardBackgroundColor.value === "bg-elevation-2") {

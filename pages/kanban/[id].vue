@@ -268,6 +268,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
                   @updateColumnTitle="board.setColumnTitle"
                   @setCardName="board.setCardName"
                   @duplicateCard="board.duplicateCard"
+                  @setCardColor="board.setCardColor"
                   @reorderCards="board.reorderCards"
                 />
               </Draggable>

@@ -133,6 +133,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>. -->
           @set-card-name="setCardName"
           @update-card-tags="updateCardTags"
           @duplicate-card="duplicateCard"
+          @set-card-color="setCardColor"
         />
       </Draggable>
     </Container>
@@ -260,6 +261,7 @@ const emit = defineEmits<{
   (e: "setColumnEditIndex", columnIndex: number, eventType: string): void;
   (e: "setCardName", columnId: string, cardId: string | undefined, name: string): void;
   (e: "duplicateCard", columnId: string, cardId: string | undefined): void;
+  (e: "setCardColor", columnId: string, cardId: string | undefined, color: string): void;
   (e: "reorderCards", columnId: string, newCardsOrder: Array<Card>): void;
 }>();
 
@@ -749,6 +751,10 @@ const addCard = () => {
 
 const duplicateCard = (cardId: string | undefined) => {
   emit("duplicateCard", props.id, cardId);
+};
+
+const setCardColor = (cardId: string | undefined, color: string) => {
+  emit("setCardColor", props.id, cardId, color);
 };
 
 const scrollCardIntoView = () => {
