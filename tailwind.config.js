@@ -7,6 +7,18 @@ module.exports = {
   plugins: [],
   theme: {
     extend: {
+      // Muted card palette: slightly darker and desaturated versions of the
+      // default 600/700 shades so card colors read as a darker pastel.
+      colors: {
+        pink: { 600: "#a6426f", 700: "#8d3359" },
+        red: { 600: "#a64242", 700: "#8a3535" },
+        orange: { 600: "#ab5c33", 700: "#8e482c" },
+        yellow: { 600: "#927027", 700: "#755322" },
+        green: { 600: "#2d7949", 700: "#26603c" },
+        teal: { 600: "#246d66", 700: "#205853" },
+        blue: { 600: "#3d64b7", 700: "#3c56a1" },
+        purple: { 600: "#8342be", 700: "#6f3e9a" },
+      },
       keyframes: {
         slideDownAndFade: {
           from: { opacity: 0, transform: "translateY(-2px)" },

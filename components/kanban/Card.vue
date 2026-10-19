@@ -367,16 +367,16 @@ const cardBackgroundColor = computed(() => {
 });
 
 // Preset palette mirrors the picker in the edit card modal.
-// contrastColor is the approximate hex of each tailwind class, used to pick a readable check mark.
+// contrastColor matches the overridden shade in tailwind.config.js, used to pick a readable check mark.
 const presetCardColors = [
-  { value: "bg-pink-600", contrastColor: "#db2777", title: "Pink" },
-  { value: "bg-red-600", contrastColor: "#dc2626", title: "Red" },
-  { value: "bg-orange-600", contrastColor: "#ea580c", title: "Orange" },
-  { value: "bg-yellow-600", contrastColor: "#ca8a04", title: "Yellow" },
-  { value: "bg-green-600", contrastColor: "#16a34a", title: "Green" },
-  { value: "bg-teal-600", contrastColor: "#0d9488", title: "Teal" },
-  { value: "bg-blue-600", contrastColor: "#2563eb", title: "Blue" },
-  { value: "bg-purple-600", contrastColor: "#9333ea", title: "Purple" },
+  { value: "bg-pink-600", contrastColor: "#a6426f", title: "Pink" },
+  { value: "bg-red-600", contrastColor: "#a64242", title: "Red" },
+  { value: "bg-orange-600", contrastColor: "#ab5c33", title: "Orange" },
+  { value: "bg-yellow-600", contrastColor: "#927027", title: "Yellow" },
+  { value: "bg-green-600", contrastColor: "#2d7949", title: "Green" },
+  { value: "bg-teal-600", contrastColor: "#246d66", title: "Teal" },
+  { value: "bg-blue-600", contrastColor: "#3d64b7", title: "Blue" },
+  { value: "bg-purple-600", contrastColor: "#8342be", title: "Purple" },
 ];
 
 const cardColorOptions = computed(() => {
